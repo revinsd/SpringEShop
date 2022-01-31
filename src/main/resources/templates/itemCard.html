@@ -9,13 +9,7 @@
 <body class="d-flex h-100 text-center">
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header th:insert="blocks/header" class="mb-auto">
-    </header>
-
-
-
-
-
+    <header th:insert="blocks/header" class="mb-auto"></header>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div th:each="it : ${item}" class="col">
             <div class="card shadow-sm">
@@ -32,9 +26,6 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
 </body>
 </html>

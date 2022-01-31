@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+<table>
+    <thead>
+    <th>ID</th>
+    <th>UserName</th>
+    <th>Password</th>
+    <th>Roles</th>
+    </thead>
+    <div th:each="user:${allUsers}">
+        <tr>
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.password}"></td>
+            <td>
+        <div th:each="role:${user.roles}">
+            <div th:text="${role.name}"></div>
+        </div>
+            </td>
+            <td>
+                <form action="/admin" method="post">
+                    <input type="hidden" name="userId" th:value="${user.id}"/>
+                    <input type="hidden" name="action" value="delete"/>
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </div>
+    </table>
+    <a href="/">Главная</a>
+</div>
+</body>
+</html>
