@@ -10,8 +10,26 @@
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header th:insert="blocks/header" class="mb-auto"></header>
-
-
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Колличество</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            <div th:if="${cart.items}" th:each="cartItem:${cart.items}">
+                <tr>
+                    <td th:text="${cartItem.item.name}"></td>
+                    <td th:text="${cartItem.quantity}"></td>
+                    <td th:text="${cartItem.item.price}"></td>
+                    <td th:text="${cartItem.item.price*cartItem.quantity}"></td>
+                </tr>
+            </div>
+        </tbody>
+    </table>
 
 </div>
 </body>
