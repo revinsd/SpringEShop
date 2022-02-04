@@ -2,7 +2,8 @@
      xmlns:sec="http://www.w3.org/1999/xhtml">
   <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
     <div  class="col-lg-3">
-      <a sec:authorize="hasRole('ADMIN')" href="/admin"><button class="btn btn-danger">Панель администратора</button></a>
+      <a sec:authorize="hasRole('ADMIN')" href="/admin"><button class="btn btn-danger">Пользователи</button></a>
+      <a sec:authorize="hasRole('ADMIN')" href="/catalog/add"><button class="btn btn-info">Добавить товары</button></a>
     </div>
     <div class="col-lg-6">
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">

@@ -8,29 +8,167 @@
 </head>
 <body class="d-flex h-100 text-center">
 
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column container">
     <header th:insert="blocks/header" class="mb-auto"></header>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Название</th>
-                <th scope="col">Колличество</th>
-                <th scope="col">Цена</th>
-                <th scope="col">Сумма</th>
-            </tr>
-        </thead>
-        <tbody>
-            <div th:if="${cart.items}" th:each="cartItem:${cart.items}">
-                <tr>
-                    <td th:text="${cartItem.item.name}"></td>
-                    <td th:text="${cartItem.quantity}"></td>
-                    <td th:text="${cartItem.item.price}"></td>
-                    <td th:text="${cartItem.item.price*cartItem.quantity}"></td>
-                </tr>
-            </div>
-        </tbody>
-    </table>
-
+    <div th:if="${cart.totalPrice}>0" class="row">
+        <div class="col-9">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col">Название</th>
+                        <th scope="col">Колличество</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div th:if="${cart.items}" th:each="cartItem:${cart.items}">
+                        <tr>
+                            <td><img th:src="@{/img/{filename}(filename = ${cartItem.item.filename})}" style="width:100px; height:100px"></td>
+                            <td th:text="${cartItem.item.name}"></td>
+                            <td>
+                                <form th:action="@{/updateCart}" method="post">
+                                    <input type="hidden" th:value="${cartItem.id}" name="item_id"/>
+                                    <div class="qty mt-3 parent">
+                                        <span class="minus bg-dark child">-</span>
+                                        <input name="quantity" class="count" type="number" min="1" th:value="${cartItem.quantity}">
+                                        <span class="plus bg-dark child">+</span>
+                                    </div>
+                                </form>
+                            </td>
+                            <td th:text="${cartItem.item.price}+' ₽'"></td>
+                            <td class="price" th:text="${cartItem.item.price*cartItem.quantity}+' ₽'"></td>
+                            <td><a th:href="'/removeCartItem/'+${cartItem.id}" class="btn btn-secondary">X</a></td>
+                        </tr>
+                    </div>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Итого</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="final" th:text="${cart.totalPrice}+' ₽'"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <form method="post" action="/order">
+                <button type="submit" class="btn btn-success">Оформить заказ</button> <!-- отображать только при наличии товаров-->
+            </form>
+        </div>
+    </div>
+    <div th:if="${cart.totalPrice}>0" class="d-flex d-flex align-items-start">
+        <a type="button" href="/clearCart" class="btn btn-danger w-10">Очистить корзину</a>
+    </div>
+    <div th:if="${cart.totalPrice}==0">
+        <h1>Корзина пуста</h1>
+        <h3>Перейдите в <a class="btn btn-light" href="/catalog">каталог</a> чтобы добавить товары</h3>
+    </div>
 </div>
+
 </body>
+    <script>
+        var counter = document.querySelectorAll("input.count");
+        counter.forEach((count)=>{
+            var parent=count.parentElement;
+            var form=parent.parentElement;
+            parent.querySelectorAll("span.child").forEach((di)=>{
+                di.addEventListener("click",function(){
+                    if(di.innerHTML=="-") {if(count.value!=1){
+                    count.value--;
+                    form.submit();
+                    }}
+                    else if (di.innerHTML=="+") {
+                    count.value++;
+                    form.submit();
+                    }
+                })
+            })
+        })
+
+
+        var inputQuantity = document.querySelectorAll('input.count')
+        inputQuantity.forEach(quantity=>{
+            quantity.addEventListener('change', function(){
+                if(quantity.value){
+                quantity.parentElement.parentElement.submit();
+                }
+            })
+        })
+    </script>
+
+<style>
+        .qty .count {
+    color: #000;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 30px;
+    padding: 0 2px;
+    min-width: 35px;
+    text-align: center;
+    margin-top:-4px;
+}
+.qty .plus {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: white;
+    width: 25px;
+    height: 25px;
+    font: 25px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+    }
+.qty .minus {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: white;
+    width: 25px;
+    height: 25px;
+    font: 25px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+    background-clip: padding-box;
+}
+
+
+
+div {
+    text-align: center;
+}
+.minus:hover{
+    background-color: #717fe0 !important;
+}
+.plus:hover{
+    background-color: #717fe0 !important;
+}
+/*Prevent text selection*/
+span{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+input{
+    border: 0;
+    width: 2%;
+}
+nput::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input:disabled{
+    background-color:white;
+}
+
+    </style>
 </html>

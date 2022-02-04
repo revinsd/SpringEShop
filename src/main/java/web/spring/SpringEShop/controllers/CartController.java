@@ -41,6 +41,8 @@ public class CartController {
         return "cart";
     }
 
+
+
     @PostMapping("/addtocart")
     public String addToCart(HttpSession session, Model model, @RequestParam("id") Long id,
                             @RequestParam("quantity") int quantity) {
@@ -73,6 +75,13 @@ public class CartController {
         String sessionValue = (String) session.getAttribute("sessionValue");
         session.removeAttribute("sessionValue");
         cartService.clearCart(sessionValue);
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/updateCart")
+    public String updateCartItem(@RequestParam("item_id") Long id, @RequestParam("quantity") int quantity) {
+
+        cartService.updateCartItem(id, quantity);
         return "redirect:/cart";
     }
 

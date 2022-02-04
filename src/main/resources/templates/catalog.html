@@ -15,15 +15,14 @@
     <header th:insert="blocks/header" class="mb-auto"></header>
     <input id="search" type="text" class="mb-2" placeholder="Поиск">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div th:each="item : ${items}" class="col">
+        <div th:each="item : ${items}" class="col" style="width:370px">
             <div th:id="${item.id}" class="card shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <img th:src="@{/img/{filename}(filename = ${item.filename})}" class="bd-placeholder-img card-img-top" width="100%" height="240">
                 <div class="card-body">
                     <b class="h2"><p th:text="${item.name}" class="card-text"/></b>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div class="d-flex justify-content-around align-items-center mt-3">
                         <div class="btn-group">
-<!--                            <a th:href="'/catalog/'+${item.id}"><button type="button" class="btn btn-sm btn-primary">Подробнее</button></a>-->
-                            <form th:name="${item.name}" method="post" action="/addtocart">
+                            <form th:name="${item.name}" class="justify-content-around" method="post" action="/addtocart">
                                 <input type="hidden" name="id" th:value="${item.id}"/>
                                 <a style="margin-left: 10px"><button type="button submit" class="addbtn btn btn-sm btn-secondary ml-1">Добавить в корзину</button></a>
                                 <div class="qty mt-3 parent">
@@ -31,11 +30,17 @@
                                     <input min="1" type="number" class="count" name="quantity" value="1">
                                     <span class="plus bg-dark child">+</span>
                                 </div>
-
+                                <small th:text="${item.price}+' ₽'" class="text-muted summ"/>
                             </form>
                         </div>
-                        <small th:text="${item.price}+' ₽'" class="text-muted"/>
+
                     </div>
+                </div>
+                <div sec:authorize="hasRole('ADMIN')">
+                    <a type="button" class="btn btn-success text-center" th:href="'/catalog/'+${item.id}+'/edit'">Изменить товар</a>
+                    <form th:action="'/catalog/'+${item.id}+'/delete'" method="post">
+                        <button class="btn btn-danger" type="submit">Удалить</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -59,15 +64,17 @@
                 })
         })
 
-
 var counter = document.querySelectorAll("input.count");
 counter.forEach((count)=>{
-    parent=count.parentElement;
+    var parent=count.parentElement;
+    var summparent=parent.parentElement;
+    var summ=summparent.querySelector('.summ');
+    var matches = summ.innerText.match(/(\d+)/);
     parent.querySelectorAll("span.child").forEach((di)=>{
-        console.log(di);
         di.addEventListener("click",function(){
             if(di.innerHTML=="-") {if(count.value!=1)count.value--}
-            else if (di.innerHTML=="+") count.value++
+            else if (di.innerHTML=="+") {count.value++}
+            summ.innerText=matches[0]*count.value+ ' ₽';
         })
     })
 })
@@ -80,21 +87,22 @@ counter.forEach((count)=>{
     color: #000;
     display: inline-block;
     vertical-align: top;
-    font-size: 15px;
+    font-size: 25px;
     font-weight: 500;
-    line-height: 20px;
+    line-height: 30px;
     padding: 0 2px;
-    min-width: 20px;
+    min-width: 35px;
     text-align: center;
+    margin-top:-4px;
 }
 .qty .plus {
     cursor: pointer;
     display: inline-block;
     vertical-align: top;
     color: white;
-    width: 20px;
-    height: 20px;
-    font: 20px/1 Arial,sans-serif;
+    width: 25px;
+    height: 25px;
+    font: 25px/1 Arial,sans-serif;
     text-align: center;
     border-radius: 50%;
     }
@@ -103,13 +111,16 @@ counter.forEach((count)=>{
     display: inline-block;
     vertical-align: top;
     color: white;
-    width: 20px;
-    height: 20px;
-    font: 20px/1 Arial,sans-serif;
+    width: 25px;
+    height: 25px;
+    font: 25px/1 Arial,sans-serif;
     text-align: center;
     border-radius: 50%;
     background-clip: padding-box;
 }
+
+
+
 div {
     text-align: center;
 }

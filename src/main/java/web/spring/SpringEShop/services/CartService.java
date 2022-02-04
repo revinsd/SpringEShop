@@ -70,6 +70,13 @@ public class CartService {
 
 
 
+    public CartItem updateCartItem(Long id, int quantity) {
+        CartItem cartItem = cartItemRepository.findById(id).orElseThrow();
+        cartItem.setQuantity(quantity);
+        return cartItemRepository.saveAndFlush(cartItem);
+    }
+
+
     public Cart removeCartItemFromCart(Long id, String sessionValue) {
 
         Cart cart = cartRepository.findBySessionValue(sessionValue);
