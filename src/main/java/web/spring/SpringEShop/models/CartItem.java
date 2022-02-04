@@ -39,5 +39,4 @@ public class CartItem {
         this.item = item;
     }
 
-
 }

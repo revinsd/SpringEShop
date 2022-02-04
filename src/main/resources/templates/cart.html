@@ -58,9 +58,16 @@
                     </tr>
                 </tbody>
             </table>
+
             <form method="post" action="/order">
-                <button type="submit" class="btn btn-success">Оформить заказ</button> <!-- отображать только при наличии товаров-->
+                <div class="form-group">
+                <input class="form-control" name="email" placeholder="Email" type="email">
+                <input class="form-control" name="phoneNumber" placeholder="Номер телефона" type="text">
+                <input class="form-control" name="address" placeholder="Адрес" type="text">
+                </div>
+                <button type="submit" class="btn btn-success">Оформить заказ</button>
             </form>
+
         </div>
     </div>
     <div th:if="${cart.totalPrice}>0" class="d-flex d-flex align-items-start">

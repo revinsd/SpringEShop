@@ -61,7 +61,7 @@ body {
 </head>
 
 <div style="position:fixed; top:0" th:if="${passwordError}" th:text="${passwordError}" class="alert alert-danger container" role="alert"></div>
-<div style="position:fixed; top:0" th:if="${usernameError}" th:text="${usernameError}" class="alert alert-danger container" role="alert"></div>
+<div style="position:fixed; top:0"  th:if="${usernameError}" th:text="${usernameError}" class="alert alert-danger container" role="alert"></div>
 
 
 
@@ -75,9 +75,9 @@ body {
         <label for="input" class="sr-only">Логин</label>
         <input th:field="*{username}" type="text" id="input" class="form-control" placeholder="Логин" required autofocus>
         <label for="inputPassword" class="sr-only">Пароль</label>
-        <input th:field="*{password}" type="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
+        <input th:field="*{password}" minlength="5" type="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
         <label for="inputPassword" class="sr-only">Подтвердите пароль</label>
-        <input th:field="*{passwordConfirm}" type="password" id="ConfirmPassword" class="form-control" placeholder="Подтвердите пароль" required>
+        <input th:field="*{passwordConfirm}" minlength="5" type="password" id="ConfirmPassword" class="form-control" placeholder="Подтвердите пароль" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
 
     </form>
