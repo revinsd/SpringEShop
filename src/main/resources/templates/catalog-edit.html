@@ -13,18 +13,14 @@
   <form name="editform" th:object="${item}" method="post" enctype="multipart/form-data">
     <div class="input-group mb-4">
       <label for="name"></label>
-      <input type="text" th:field="*{name}" id="name" th:placeholder="${item.name}"
-             class="form-control"><br>
+      <input type="text" th:field="*{name}" id="name" th:placeholder="${item.name}" class="form-control"><br>
     </div>
-
     <input type="file" name="file" placeholder="Добавьте новую картинку товара" class="form-control" th:value="${item.filename}"><br>
-
     <div class="input-group mb-4">
       <label for="price" class="form-label"></label>
       <input type="number" th:field="*{price}" id="price" th:placeholder="${item.price}"
              class="form-control"><br>
     </div>
-
     <div class="input-group mb-4">
       <label for="articul"></label>
       <input type="number" th:field="*{articul}" id="articul" th:placeholder="${item.articul}"

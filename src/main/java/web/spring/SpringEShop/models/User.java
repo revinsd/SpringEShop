@@ -20,6 +20,8 @@ public class User implements UserDetails {
     private String password;
     @Transient
     private String passwordConfirm;
+    @Transient
+    private String oldPassword;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
@@ -91,5 +93,25 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
+                ", oldPassword='" + oldPassword + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

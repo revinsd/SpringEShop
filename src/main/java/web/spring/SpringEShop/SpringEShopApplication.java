@@ -9,14 +9,15 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import web.spring.SpringEShop.services.MailService;
 
+import java.io.FileReader;
 import java.util.Properties;
 
 @SpringBootApplication
 public class SpringEShopApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(SpringEShopApplication.class, args);
 	}
+
 
 
 }
