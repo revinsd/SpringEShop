@@ -13,8 +13,14 @@
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header th:insert="blocks/header" class="mb-auto"></header>
-    <input id="search" type="text" class="mb-2" placeholder="Поиск">
+    <div class="container mb-5">
+        <form class="form-inline d-flex" method="post" action="/catalog">
+                <input class="form-control" name="search" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
         <div th:each="item : ${items}" class="col" style="width:370px">
             <div th:id="${item.id}" class="card shadow-sm">
                 <img th:src="@{/img/{filename}(filename = ${item.filename})}" class="bd-placeholder-img card-img-top" width="100%" height="240">

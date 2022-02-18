@@ -20,11 +20,8 @@
       <div sec:authorize="isAuthenticated()">
         <span>Вы авторизованы как</span>
         <div class="col-md-3 text-end text-center" style="min-width:430px">
-          <b sec:authentication="name" id="name"></b>
-          <form action="/lk" method="post">
-            <input id="formName" name="name" type="hidden">
-            <button type="submit" class="btn btn-success">Личный кабинет</button>
-          </form>
+          <b sec:authentication="name" id="name"></b></br>
+          <a href="/lk"><button type="submit" class="btn btn-success">Личный кабинет</button></a>
              <a href="/logout"><button class="btn btn-info">Выйти</button></a>
         </div>
       </div>
@@ -32,6 +29,6 @@
   </header>
 
   <script>
-     document.getElementById("formName").value=document.getElementById("name").innerText
+
 </script>
 </div>

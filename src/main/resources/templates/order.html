@@ -11,6 +11,7 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column container">
     <header th:insert="blocks/header" class="mb-auto"></header>
     <h1>Заказ оформлен</h1>
+    <h2 th:text="'Номер вашего заказа: '+${sessionValue}"></h2>
     <a type="button" class="btn btn-success" href="/catalog">Вернуться в покупкам</a>
 </div>
 

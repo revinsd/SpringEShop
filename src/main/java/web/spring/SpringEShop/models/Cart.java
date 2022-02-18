@@ -13,7 +13,7 @@ public class Cart {
     private Long id;
 
     @Transient
-    private int totalPrice;
+    private int totalPrice=0;
 
     @Transient
     private int itemsNumber;

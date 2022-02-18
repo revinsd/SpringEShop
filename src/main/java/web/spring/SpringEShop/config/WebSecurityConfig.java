@@ -24,25 +24,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .csrf()
-                .disable()
-                .authorizeRequests()
-                .antMatchers("/registration").not().fullyAuthenticated()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/catalog/add/**").hasRole("ADMIN")
-                .antMatchers("/catalog/**/edit").hasRole("ADMIN")
-                .antMatchers("/catalog/**/delete").hasRole("ADMIN")
-                .antMatchers("/", "/resources/**").permitAll()
-                .anyRequest().authenticated()
+                    .csrf()
+                    .disable()
+                    .authorizeRequests()
+                    .antMatchers("/registration").not().fullyAuthenticated()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/catalog/add/**").hasRole("ADMIN")
+                    .antMatchers("/catalog/**/edit").hasRole("ADMIN")
+                    .antMatchers("/catalog/**/delete").hasRole("ADMIN")
+                    .antMatchers("/", "/resources/**").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/")
-                .permitAll()
+                    .formLogin()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/")
+                    .permitAll()
                 .and()
-                .logout()
-                .permitAll()
-                .logoutSuccessUrl("/");
+                    .logout()
+                    .permitAll()
+                    .logoutSuccessUrl("/");
 
     }
 

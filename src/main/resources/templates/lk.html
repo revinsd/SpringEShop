@@ -11,7 +11,7 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column container">
     <header th:insert="blocks/header" class="mb-auto"></header>
     <h1>Изменить пароль</h1>
-        <form th:method="post" th:action="'/lk/'+${user.username}" th:object="${user}" name="userForm">
+        <form th:method="post" action="/lk" th:object="${user}" name="userForm">
             <input class="form-control" th:field="*{id}" th:value="${user.id}" type="hidden">
             <input class="form-control" th:field="*{username}" th:value="${user.username}" type="hidden">
             <input class="form-control" th:field="*{roles}" th:value="${user.roles}" type="hidden">

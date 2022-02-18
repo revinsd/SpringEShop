@@ -1,6 +1,7 @@
 package web.spring.SpringEShop.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -28,15 +29,14 @@ public class LkController {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @PostMapping("/lk")
-    public String lk(@RequestParam("name") String username,Model model) {
-        User user = userRepository.findByUsername(username);
+    @GetMapping("/lk")
+    public String lk(Model model,@AuthenticationPrincipal User user) {
         model.addAttribute("user", user);
-        System.out.println(user);
+        model.addAttribute("title", "Личный кабинет");
         return "lk";
     }
 
-    @PostMapping("/lk/{username}")
+    @PostMapping("/lk")
     public String edit(@Valid User user,
                        @RequestParam("oldPassword") String oldPassword,
                        @RequestParam("password") String password,

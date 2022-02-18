@@ -1,9 +1,6 @@
 package web.spring.SpringEShop.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,14 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import web.spring.SpringEShop.models.Item;
-import web.spring.SpringEShop.models.User;
 import web.spring.SpringEShop.repo.ItemRepository;
 import web.spring.SpringEShop.services.FileService;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 @Controller
 public class CatalogController {
@@ -38,21 +33,24 @@ public class CatalogController {
         return "catalog";
     }
 
-    @GetMapping("/catalog/{id}")
-    public String catalogItem(@PathVariable(value="id") long id, Model model){
-        if(!itemRepository.existsById(id)) return "redirect:/catalog";
-        Optional<Item> item = itemRepository.findById(id);
-        ArrayList<Item> res = new ArrayList<>();
-        item.ifPresent(res::add);
-        model.addAttribute("item", res);
-        model.addAttribute("title", res.get(0).getName());
-        return "itemCard";
-    }
+
+    //TODO add personal item cards
+//    @GetMapping("/catalog/{id}")
+//    public String catalogItem(@PathVariable(value="id") long id, Model model){
+//        if(!itemRepository.existsById(id)) return "redirect:/catalog";
+//        Optional<Item> item = itemRepository.findById(id);
+//        ArrayList<Item> res = new ArrayList<>();
+//        item.ifPresent(res::add);`
+//        model.addAttribute("item", res);
+//        model.addAttribute("title", res.get(0).getName());
+//        return "itemCard";
+//    }
 
     @GetMapping("/catalog/add")
     public String catalogAdd(Model model) {
 
         model.addAttribute("item", new Item());
+        model.addAttribute("title", "Добавление товара");
         return "catalog-add";
     }
 
@@ -77,6 +75,7 @@ public class CatalogController {
     public String catalogEdit(@PathVariable(value = "id") long id, Model model) {
         Item tov = itemRepository.findById(id).orElseThrow();
         model.addAttribute("item", tov);
+        model.addAttribute("title", "Изменение товара");
         return "catalog-edit";
     }
 
@@ -97,6 +96,13 @@ public class CatalogController {
     public String catalogDelete(@PathVariable(value = "id") long id, Model model) {
         Item item = itemRepository.findById(id).orElseThrow();
         itemRepository.delete(item);
+        return "redirect:/catalog";
+    }
+
+    @PostMapping("/catalog")
+    public String catalogDelete(@RequestParam("search") String search, Model model) {
+        List<Item> items = itemRepository.findByNameContainingIgnoreCase(search);
+        model.addAttribute("items",items);
         return "catalog";
     }
 }

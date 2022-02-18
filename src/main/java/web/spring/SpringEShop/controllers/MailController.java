@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import web.spring.SpringEShop.models.Cart;
 import web.spring.SpringEShop.models.CartItem;
 import web.spring.SpringEShop.models.User;
+import web.spring.SpringEShop.repo.CartItemRepository;
 import web.spring.SpringEShop.services.CartService;
 import web.spring.SpringEShop.services.MailService;
 
@@ -22,6 +23,8 @@ public class MailController {
     private CartService cartService;
     @Autowired
     private MailService mail;
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
     @PostMapping("/order")
     public String sendMail(@RequestParam("phoneNumber") String phoneNumber,
@@ -33,26 +36,19 @@ public class MailController {
         String sessionValue = (String) session.getAttribute("sessionValue");
         Cart cart = cartService.getCartBySessionValue(sessionValue);
         List<CartItem> cartItems= new ArrayList<>(cart.getItems());
-        StringBuilder items =new StringBuilder();
+        String items="";
         for (CartItem cartItem : cartItems) {
-            items.append(" ").append(cartItem.getQuantity()).append("x ").append(cartItem.getItem().getName()).append(",");
+        items=items+" "+cartItem.getQuantity()+"x "+cartItem.getItem().getName()+",";
         }
-        StringBuilder message = new StringBuilder();
-        message.append("Уважаемый ")
-                .append(user.getUsername())
-                .append(",")
-                .append(" Ваш заказ:")
-                .append(items)
-                .append(" Номер телефона: ")
-                .append(phoneNumber)
-                .append(", Адрес: ")
-                .append(address)
-                .append(". Заказ обработан.")
-                .append( "Сумма к оплате: ")
-                .append(cart.getTotalPrice())
-                .append(" ₽");
+        String message = "Уважаемый "+user.getUsername()
+                +", Ваш заказ:"+items
+                +" Номер телефона: "+ phoneNumber
+                +", Адрес: "+address
+                +". Заказ обработан. Сумма к оплате: "+ cart.getTotalPrice()+" ₽";
 
-        mail.sendMail(email,message.toString(),"Номер заказа " +sessionValue);
+        mail.sendMail(email,message,"Номер заказа: " +sessionValue);
+        model.addAttribute("sessionValue", sessionValue);
+        cartService.clearCart(sessionValue);
         return "/order";
 
     }

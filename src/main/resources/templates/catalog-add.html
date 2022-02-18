@@ -14,7 +14,7 @@
         <div class="input-group has-validation mb-4">
             <label for="name"></label>
             <input type="text" th:field="*{name}" id="name" placeholder="Введите название товара"
-                   class="form-control is-invalid"><br>
+                   class="form-control"><br>
             <div class="invalid-feedback " th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
         </div>
 
@@ -23,14 +23,14 @@
         <div class="input-group has-validation mb-4">
             <label for="price" class="form-label"></label>
             <input type="number" th:field="*{price}" id="price" placeholder="Введите цену товара"
-                   class="form-control is-invalid"><br>
+                   class="form-control"><br>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
         </div>
 
         <div class="input-group has-validation mb-4">
             <label for="articul"></label>
             <input type="number" th:field="*{articul}" id="articul" placeholder="Введите артикул товара"
-                   class="form-control is-invalid"><br>
+                   class="form-control"><br>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('articul')}" th:errors="*{articul}"></div>
         </div>
 
