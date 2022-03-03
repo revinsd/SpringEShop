@@ -29,8 +29,8 @@ public class CartController {
 
 
     @GetMapping("/cart")
-    public String showCart(@AuthenticationPrincipal User users, HttpSession session, Model model) {
-        model.addAttribute("users", users);
+    public String showCart(@AuthenticationPrincipal User user, HttpSession session, Model model) {
+        model.addAttribute("user", user);
         String sessionValue = (String) session.getAttribute("sessionValue");
         if (sessionValue == null||cartService.getCartBySessionValue(sessionValue)==null) {
             model.addAttribute("cart", new Cart());

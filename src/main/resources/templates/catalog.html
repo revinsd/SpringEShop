@@ -12,7 +12,7 @@
 </head>
 <body class="d-flex h-100 text-center">
 
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<div class="container cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header th:insert="blocks/header" class="mb-auto"></header>
     <div class="container mb-5">
         <form class="form-inline d-flex" method="post" action="/catalog">
@@ -44,10 +44,18 @@
                     </div>
                 </div>
                 <div sec:authorize="hasRole('ADMIN')">
-                    <a type="button" class="btn btn-success text-center" th:href="'/catalog/'+${item.id}+'/edit'">Изменить товар</a>
-                    <form th:action="'/catalog/'+${item.id}+'/delete'" method="post">
-                        <button class="btn btn-danger" type="submit">Удалить</button>
-                    </form>
+
+                    <div class="dropdown">
+                        <div class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Изменить</div>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a type="button" class="btn btn-success text-center dropdown-item" th:href="'/catalog/'+${item.id}+'/edit'">Редактировать товар</a>
+                            <form th:action="'/catalog/'+${item.id}+'/delete'" method="post">
+                                <button class="btn btn-danger dropdown-item" type="submit">Удалить</button>
+                            </form>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>

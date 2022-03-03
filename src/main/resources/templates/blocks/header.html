@@ -1,12 +1,11 @@
 <div th:fragment="header" class="container" xmlns:th="http://www.w3.org/1999/xhtml"
      xmlns:sec="http://www.w3.org/1999/xhtml">
   <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-    <div  class="col-lg-3"></div>
-    <div class="col-lg-6">
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/" class="active btn btn-primary px-2">Главная страница</a></li>
-        <li><a href="/catalog" class="nav-link px-2 link-dark">Каталог</a></li>
-        <li><a href="/cart" class="nav-link px-2 link-dark">Корзина</a></li>
+    <div class="col-lg-9">
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-left mb-md-0">
+        <li><a href="/" class="nav-link px-2 link-dark">Главная страница</a></li>
+        <li><a href="/catalog" class="nav-link px-2 link-dark ">Каталог</a></li>
+        <li><a href="/cart" class="nav-link px-2 link-dark ">Корзина</a></li>
       </ul>
     </div>
     <div class="col-lg-3 d-flex justify-content-center">
@@ -16,8 +15,11 @@
       </div>
       <div sec:authorize="isAuthenticated()">
         <div class="dropdown">
-          <img th:src="${user.image}" alt="mdo" width="32" height="32" class="rounded-circle">
-          <div sec:authentication="name" class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
+          <div class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img th:if="${user.image}" th:src="'/img/'+${user.image}" alt="mdo" width="32" height="32" class="rounded-circle">
+            <img th:if="!${user.image}" src="/img/camera_50.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            <span sec:authentication="name"></span>
+          </div>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a sec:authorize="hasRole('ADMIN')" class="dropdown-item" href="/admin">Пользователи</a>
             <a sec:authorize="hasRole('ADMIN')" class="dropdown-item" href="/catalog/add">Добавить товары</a>

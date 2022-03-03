@@ -1,6 +1,7 @@
 package web.spring.SpringEShop.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import web.spring.SpringEShop.models.Item;
+import web.spring.SpringEShop.models.User;
 import web.spring.SpringEShop.repo.ItemRepository;
 import web.spring.SpringEShop.services.FileService;
 
@@ -26,10 +28,11 @@ public class CatalogController {
 
 
     @GetMapping("/catalog")
-    public String catalog(Model model){
+    public String catalog(@AuthenticationPrincipal User user,Model model){
         Iterable<Item> items = itemRepository.findAll();
         model.addAttribute("items",items);
         model.addAttribute("title","Каталог");
+        model.addAttribute("user",user);
         return "catalog";
     }
 
@@ -47,10 +50,11 @@ public class CatalogController {
 //    }
 
     @GetMapping("/catalog/add")
-    public String catalogAdd(Model model) {
+    public String catalogAdd(@AuthenticationPrincipal User user, Model model) {
 
         model.addAttribute("item", new Item());
         model.addAttribute("title", "Добавление товара");
+        model.addAttribute("user",user);
         return "catalog-add";
     }
 
@@ -72,10 +76,11 @@ public class CatalogController {
 
 
     @GetMapping("/catalog/{id}/edit")
-    public String catalogEdit(@PathVariable(value = "id") long id, Model model) {
+    public String catalogEdit(@AuthenticationPrincipal User user,@PathVariable(value = "id") long id, Model model) {
         Item tov = itemRepository.findById(id).orElseThrow();
         model.addAttribute("item", tov);
         model.addAttribute("title", "Изменение товара");
+        model.addAttribute("user",user);
         return "catalog-edit";
     }
 
