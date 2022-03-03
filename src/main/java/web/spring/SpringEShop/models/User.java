@@ -24,6 +24,7 @@ public class User implements UserDetails {
     private String oldPassword;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+    private String image;
 
     public User() {
     }
@@ -101,6 +102,14 @@ public class User implements UserDetails {
 
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override
