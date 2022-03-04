@@ -16,8 +16,8 @@
       <div sec:authorize="isAuthenticated()">
         <div class="dropdown">
           <div class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img th:if="${user.image}" th:src="'/img/'+${user.image}" alt="mdo" width="32" height="32" class="rounded-circle">
-            <img th:if="!${user.image}" src="/img/camera_50.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            <img th:if="${user.image}" th:src="'/img/'+${user.image}" width="32" height="32" class="rounded-circle">
+            <img th:if="${user.image}==null" src="F:/ImageForSpringEShop/camera_50.png" width="32" height="32" class="rounded-circle">
             <span sec:authentication="name"></span>
           </div>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
